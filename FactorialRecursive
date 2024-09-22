@@ -1,0 +1,30 @@
+# factorial of N
+.data
+N: .word 5
+rez: .word 0
+
+.text
+lw $a0,N
+jal factorial #factorial($a0)
+
+sw $v0,rez
+
+move $a0,$v0
+li $v0,1
+syscall #syscall 1: print $a0
+
+li $v0,10
+syscall
+
+factorial:
+	beqz $a0,BaseCase
+	
+	RecursiveCase:
+		sub $a0,$a0,1
+		jal factorial
+		mul $v0,$v0,$a0
+	
+BaseCase:
+	li $v0,1
+	jr $ra
+	
